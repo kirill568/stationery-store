@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block customCSS %}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/slick/slick.css' %}"/>
+	<link rel="stylesheet" type="text/css" href="{% static 'css/slick/slick-theme.css' %}"/>
+	<link rel="stylesheet" type="text/css" href="{% static 'css/productCard.css' %}">
+{% endblock %}
+
+{% block title%}
+	{{ product.name }}
+{% endblock %}
+
+{% block content %}
+	<section class="card">
+		<div class="product">
+			<div class="images">
+				<div class="sliderFor">
+					{% for image in product.picture_set.all %}
+						<img src="{{ image.image.url }}">
+					{% endfor %}
+				</div>			
+				<div class="sliderNav">
+					{% for image in product.picture_set.all %}
+						<img src="{{ image.image.url }}">
+					{% endfor %}
+				</div>
+			</div>
+
+			<div class="info">
+				<div class="name">
+					<h2>{{ product.name }}</h2>
+				</div>
+
+				<div class="description">
+					{{ product.description }}
+				</div>		
+			</div>
+
+			<div class="price">
+					{{ product.price }}
+			</div>
+		</div>
+
+		<div class="features">
+			<table>
+				<caption>Хакартеристики</caption>
+				{% for feature in product.productfeaturevalue_set.all %}
+					<tr>
+						<td>{{ feature.feature.name }}</td>
+						<td>{{ feature.value.value }}</td>
+					</tr>
+				{% endfor %}
+			</table>
+		</div>
+	</section>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="{% static 'js/slick/slick.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/script/slider.js' %}"></script>
+{% endblock %}

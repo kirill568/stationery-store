@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block customCSS %}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/productList.css' %}">
+{% endblock %}
+
+{% block title%}
+	Главная
+{% endblock %}
+{% block content %}
+<section class="main">
+	<aside class="tools">
+		<div class="categories">
+			<ul>
+				{% for category in categories_list %}
+					<li class="{% if category.category_set.all%}parent{% endif %}">
+						<a href="{% url 'productCategoryUrl' slug=category.url %}">{{ category.name }}</a>
+						<ul class="child">
+							{% for cat in category.category_set.all %}
+								<li><a href="{% url 'productCategoryUrl' slug=cat.url %}">{{ cat.name }}</a></li>
+							{% endfor %}
+						</ul>
+					</li>
+				{% endfor %}
+			</ul>
+		</div>
+
+		<div class="filters">
+
+			<form action="{% url 'productSearchUrl' %}" method="get">
+				<input type="text" name="search">
+
+				<input type="submit" name="searchButton" value="найти" class="btn btnSearch">
+			</form>
+
+			<!-- <form action="{% url 'productListUrl' %}" method="get">
+				{% for feature in feature_values %}
+					<div class="filter">
+						<p class="titleFilter">{{ feature.featureName }}</p>
+
+						{% for value in feature.values %}
+
+							<input type="checkbox" name="{{ feature.featureNameLang }}" value="{{ value.value }}" id="{{ value.value }}">
+							<label for="{{ value.value }}">{{ value.value }}</label><br>
+
+						{% endfor %}
+					</div>
+				{% endfor %}
+				<input type="submit" value="применить фильтры" class="btn btnFilters">
+			</form> -->
+		</div>
+	</aside>
+
+	<div class="productList">
+		<div class="currentCategory">
+			Текущая категория: {% if category_name %} {{ category_name }} {% else %} Главная {% endif %}
+		</div>
+		{% for product in page_object.object_list %}
+			<div class="product">
+				<div class="imageWrapper">
+					<img src="{{ product.picture_set.first.image.url }}">
+				</div>
+				<div class="productInfo">					
+					<p class="productName">{{ product.name }}</p>
+					<span class="price">{{ product.price }}</span>
+				</div>
+				<a class="btnOpen" href="{% url 'productDetailUrl' slug=product.url %}">Открыть</a>			
+			</div>
+		{% endfor %}
+	</div>
+</section>
+
+<section class="paginationWrapper">
+	{% if isPaginated %}
+		<div class="pagination">
+			<a href="{{ prevUrl }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}" class="page preUrl {% if not prevUrl %}disabled{% endif %}">&laquo;</a>
+			{% for n in page_object.paginator.page_range %}
+				{% if page_object.number == n %}
+					<a href="?page={{ n  }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}" class="page active">{{ n }}</a>
+				{% elif n > page_object.number|add:-3 and n < page_object.number|add:3 %}
+					<a href="?page={{ n  }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}" class="page">{{ n }}</a>
+				{% endif %}
+			{% endfor %}
+			<a href="{{ nextUrl }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}" class="page nextUrl {% if not nextUrl %}disabled{% endif %}">&raquo;</a>
+		</div>
+	{% endif %}
+</section>
+{% endblock %}

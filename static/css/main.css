@@ -1,0 +1,53 @@
+* {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+}
+
+header, footer {
+	padding-left: 20px;
+}
+
+p, a, h1, h2, h3, label, span, input, div {
+	font-family: 'Montserrat', sans-serif;
+}
+
+header a {
+	text-decoration: none;
+	color: black;
+}
+
+.btn {
+	border: none;
+	background: none;
+	outline: none;
+	display: inline-block;
+	border: 1px solid #dbdbdb;
+	transition: border-color 0.3s;
+	text-decoration: none;
+	color: black;
+	font-weight: 600;
+}
+
+.btn:hover {
+	border-color: #ea4141;
+}
+
+footer {
+	border-top: 2px solid black;
+	padding: 25px;
+	margin-top: 50px;
+}
+
+footer a {
+	text-decoration: none;
+	color: black;
+	font-weight: 600;
+}
+
+footer a:hover {
+	border-bottom: 1px solid black;
+}
