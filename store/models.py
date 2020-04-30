@@ -53,8 +53,6 @@ class Value(models.Model):
 
 class Feature(models.Model):
 	name = models.CharField("Название", max_length = 255)
-	# value = models.ForeignKey(Value, verbose_name = "Значение", on_delete = models.SET_NULL, null = True)
-	# product = models.ManyToManyField(Product, verbose_name = "Товар")
 
 	def __str__(self):
 		return self.name
@@ -69,5 +67,5 @@ class ProductFeatureValue(models.Model):
 	value = models.ForeignKey(Value, verbose_name = "Значение", on_delete = models.CASCADE)
 
 	class Meta:
-		verbose_name = "Товар характеристика значение"
-		verbose_name_plural = "Товары характеристики значения"
+		verbose_name = "Характеристика товара"
+		verbose_name_plural = "Характеристики товаров"

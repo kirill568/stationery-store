@@ -24,18 +24,14 @@ def pagination(products, itemPage, pageNumber):
 
 	return {'nextUrl': nextUrl, 'prevUrl': prevUrl, 'page': page, 'isPaginated': isPaginated}
 
-def productList(request, productSearch=None, productCategory=None, categoryName=''):
-	pageNumber = request.GET.get('page', 1)
+def productList(request, products=None, categoryName=''):
 
-	if productSearch is not None:
-		products = productSearch
-	elif productCategory is not None:
-		products = productCategory
-	else:
+	if products is None:
 		products = Product.objects.all()
 
 	categories = Category.objects.filter(parent__isnull=True) #categories which don't have parent
 
+	pageNumber = request.GET.get('page', 1)
 	contextPages = pagination(products, itemOnThePage, pageNumber)
 	print(contextPages)
 
@@ -50,12 +46,12 @@ def productCategory(request, slug):
 	category = Category.objects.get(url__iexact = slug)
 	categoryName = category.name
 	products = category.product_set.all()
-	return productList(request, productCategory=products, categoryName=categoryName)
+	return productList(request, products=products, categoryName=categoryName)
 
 def productSearch(request):
 	searchQuery = request.GET.get('search', '')
 	products = Product.objects.filter(Q(name__icontains=searchQuery) | Q(description__icontains=searchQuery))
-	return productList(request, productSearch=products)
+	return productList(request, products=products)
 
 def productDetail(request, slug):
 	product = Product.objects.get(url__iexact = slug)
