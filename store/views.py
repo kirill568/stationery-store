@@ -33,7 +33,6 @@ def productList(request, products=None, categoryName=''):
 
 	pageNumber = request.GET.get('page', 1)
 	contextPages = pagination(products, itemOnThePage, pageNumber)
-	print(contextPages)
 
 	return render(request, 'store/products_list.html', {'categories_list': categories,
 														'category_name': categoryName,
