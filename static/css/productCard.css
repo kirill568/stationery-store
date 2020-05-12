@@ -19,6 +19,10 @@
 	font-size: 20px;
 }
 
+.price form {
+	margin-top: 15px;
+}
+
 .name {
 	margin-bottom: 40px;
 }

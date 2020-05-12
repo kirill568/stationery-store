@@ -40,6 +40,15 @@
 
 			<div class="price">
 					{{ product.price }}
+					{% if request.user.is_authenticated and request.user.is_staff %}
+						<form action="{% url 'productSetCount' slug=product.url %}" method="post"> 
+							{% csrf_token %}
+							<input style="max-width: 50px;" type="number" name="count" value="{{ product.count }}">
+							<input type="submit" name="setCount" value="Обновить" class="btn btnSetCount">
+						</form>
+					{% else %}
+						<span><b>{{ product.count }}</b></span>
+					{% endif %}
 			</div>
 		</div>
 
