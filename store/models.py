@@ -19,12 +19,13 @@ class Product(models.Model):
 	description = models.TextField("Описание")
 	url = models.SlugField("Ссылка", max_length = 150, unique = True)
 	category = models.ForeignKey(Category, verbose_name = "Категория", on_delete = models.SET_NULL, null = True)
+	count = models.IntegerField("Количество")
 
 	def __str__(self):
 		return self.name
 
 	class Meta:
-		ordering = ['id']
+		ordering = ['count']
 		verbose_name = "Товар"
 		verbose_name_plural = "Товары"
 

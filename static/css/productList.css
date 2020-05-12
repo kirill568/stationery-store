@@ -29,6 +29,18 @@
 	padding-left: 30px;
 }
 
+.productCount {
+	display: flex;
+}
+
+.productCount form input {
+	margin-left: 10px;
+}
+
+.productCount span {
+	margin-left: 10px;
+}
+
 .imageWrapper {
 	width: 200px;
 	text-align: center;

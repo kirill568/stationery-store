@@ -7,6 +7,11 @@ from store.models import *
 
 itemOnThePage = 6
 
+def isAuth(request):
+    if not request.user.is_authenticated and not request.user.is_staff:
+        return False
+    return True
+
 def pagination(products, itemPage, pageNumber):
 	paginator = Paginator(products, itemOnThePage)
 	page = paginator.get_page(pageNumber)
@@ -55,3 +60,13 @@ def productSearch(request):
 def productDetail(request, slug):
 	product = Product.objects.get(url__iexact = slug)
 	return render(request, 'store/product_detail.html', {'product': product})
+
+def productSetCount(request, slug):
+    count = request.POST.get('count');
+    product = Product.objects.get(url__iexact = slug)
+    if isAuth(request):
+        product.count = count;
+        product.save();
+        return redirect('productListUrl')
+    else:
+        return HttpResponse('<h1>ERROR 403</h1>')
